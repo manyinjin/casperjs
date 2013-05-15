@@ -2290,6 +2290,17 @@ Casper.prototype.zoom = function zoom(factor) {
 };
 
 /**
+ * Ask proxy server to add another page ref
+ */
+Casper.prototype.newStep = function(pageRef) {
+	"use strict";
+    this.checkStarted();
+    this.evaluate(function _evaluate(port, pageRef){
+        return __utils__.sendAJAX("http://localhost:8080/proxy/"+port+"/har/pageRef?pageRef="+pageRef, "PUT", {}, false);
+    }, this.cli.get(0), pageRef);
+}
+
+/**
  * Extends Casper's prototype with provided one.
  *
  * @param  Object  proto  Prototype methods to add to Casper
